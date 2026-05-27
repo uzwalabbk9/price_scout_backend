@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>product_router.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.ln { color: #4b5059; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+product_router.py</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">from </span><span class="s1">fastapi </span><span class="s0">import </span><span class="s1">APIRouter</span><span class="s2">, </span><span class="s1">HTTPException</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">from </span><span class="s1">app</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">product_model </span><span class="s0">import </span><span class="s1">Product</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">from </span><span class="s1">app</span><span class="s2">.</span><span class="s1">services</span><span class="s2">.</span><span class="s1">product_service </span><span class="s0">import </span><span class="s1">ProductService</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a><span class="s1">router </span><span class="s2">= </span><span class="s1">APIRouter</span><span class="s2">(</span><span class="s1">prefix</span><span class="s2">=</span><span class="s3">&quot;/products&quot;</span><span class="s2">, </span><span class="s1">tags</span><span class="s2">=[</span><span class="s3">&quot;Products&quot;</span><span class="s2">])</span>
+<a name="l6"><span class="ln">6    </span></a>
+<a name="l7"><span class="ln">7    </span></a>
+<a name="l8"><span class="ln">8    </span></a><span class="s2">@</span><span class="s1">router</span><span class="s2">.</span><span class="s1">post</span><span class="s2">(</span><span class="s3">&quot;/&quot;</span><span class="s2">, </span><span class="s1">response_model</span><span class="s2">=</span><span class="s1">Product</span><span class="s2">)</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">async def </span><span class="s1">create_product</span><span class="s2">(</span><span class="s1">product</span><span class="s2">: </span><span class="s1">Product</span><span class="s2">):</span>
+<a name="l10"><span class="ln">10   </span></a>    <span class="s0">return await </span><span class="s1">ProductService</span><span class="s2">.</span><span class="s1">create_product</span><span class="s2">(</span><span class="s1">product</span><span class="s2">)</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a><span class="s2">@</span><span class="s1">router</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">&quot;/{product_id}&quot;</span><span class="s2">)</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">async def </span><span class="s1">get_product</span><span class="s2">(</span><span class="s1">product_id</span><span class="s2">: </span><span class="s1">str</span><span class="s2">):</span>
+<a name="l15"><span class="ln">15   </span></a>    <span class="s1">product </span><span class="s2">= </span><span class="s0">await </span><span class="s1">ProductService</span><span class="s2">.</span><span class="s1">get_product_with_prices</span><span class="s2">(</span><span class="s1">product_id</span><span class="s2">)</span>
+<a name="l16"><span class="ln">16   </span></a>    <span class="s0">if not </span><span class="s1">product</span><span class="s2">:</span>
+<a name="l17"><span class="ln">17   </span></a>        <span class="s0">raise </span><span class="s1">HTTPException</span><span class="s2">(</span><span class="s1">status_code</span><span class="s2">=</span><span class="s4">404</span><span class="s2">, </span><span class="s1">detail</span><span class="s2">=</span><span class="s3">&quot;Product not found&quot;</span><span class="s2">)</span>
+<a name="l18"><span class="ln">18   </span></a>    <span class="s0">return </span><span class="s1">product</span>
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a>
+<a name="l21"><span class="ln">21   </span></a><span class="s2">@</span><span class="s1">router</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s3">&quot;/search/{query}&quot;</span><span class="s2">)</span>
+<a name="l22"><span class="ln">22   </span></a><span class="s0">async def </span><span class="s1">search_products</span><span class="s2">(</span><span class="s1">query</span><span class="s2">: </span><span class="s1">str</span><span class="s2">):</span>
+<a name="l23"><span class="ln">23   </span></a>    <span class="s0">return await </span><span class="s1">ProductService</span><span class="s2">.</span><span class="s1">search_products</span><span class="s2">(</span><span class="s1">query</span><span class="s2">)</span></pre>
+</body>
+</html>
